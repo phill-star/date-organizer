@@ -8,16 +8,16 @@ $(function () {
     // Get current day and time
     var currentDay = dayjs().format("dddd, MMMM, YYYY");
     var currentHour = dayjs().format("H");
-  
+
     // Display current day
     $("#currentDay").text(currentDay);
-  
+
     // Set up time blocks
     $(".time-block").each(function() {
-  
+
       // Get hour for this time block
       var blockHour = parseInt($(this).attr("id").split("-")[1]);
-  
+
       // Set background color for time block based on past/present/future
       if (blockHour < currentHour) {
         $(this).addClass("past");
@@ -26,33 +26,36 @@ $(function () {
       } else {
         $(this).addClass("future");
       }
-  
+
       // Retrieve saved event for this time block from local storage
       var savedEvent = localStorage.getItem("event-" + blockHour);
-      
-  
+
+
       // Display saved event
       $(this).find(".description").val(savedEvent);
-  
+
       // Save event when save button is clicked
       $(this).find(".saveBtn").on("click", function() {
         var event = $(this).siblings(".description").val();
         localStorage.setItem("event-" + blockHour, event);
       });
-  
-  
+
+
       // Add remove button click listener
     $(this).find(".removeBtn").on("click", function() {
+
     // Remove event from local storage
     localStorage.removeItem("event-" + blockHour);
+    
     // Clear description field
     $(this).siblings(".description").val("");
    });
 
-  
+
     });
-  
+
   });
+
   
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
