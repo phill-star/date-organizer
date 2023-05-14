@@ -6,7 +6,8 @@ $(function () {
   $(document).ready(function() {
 
     // Get current day and time
-    var currentDay = dayjs().format("dddd, MMMM, YYYY");
+    var timezone = "America/Mountain";
+    var currentDay = dayjs().format("MMMM, D, YYYY");
     var currentHour = dayjs().format("H");
 
     // Display current day
@@ -16,19 +17,20 @@ $(function () {
     $(".time-block").each(function() {
 
       // Get hour for this time block
-      var blockHour = parseInt($(this).attr("id").split("-")[1]);
+      var timeBlock = parseInt($(this).attr("id").split("-")[1]);
 
       // Set background color for time block based on past/present/future
-      if (blockHour < currentHour) {
+      if (timeBlock < currentHour) {
         $(this).addClass("past");
-      } else if (blockHour === currentHour) {
+      } else if (timeBlock === currentHour) {
         $(this).addClass("present");
       } else {
         $(this).addClass("future");
       }
+      
 
       // Retrieve saved event for this time block from local storage
-      var savedEvent = localStorage.getItem("event-" + blockHour);
+      var savedEvent = localStorage.getItem("event-" + timeBlock);
 
 
       // Display saved event
@@ -37,20 +39,19 @@ $(function () {
       // Save event when save button is clicked
       $(this).find(".saveBtn").on("click", function() {
         var event = $(this).siblings(".description").val();
-        localStorage.setItem("event-" + blockHour, event);
+        localStorage.setItem("event-" + timeBlock, event);
       });
 
 
       // Add remove button click listener
-    $(this).find(".removeBtn").on("click", function() {
+      $(this).find(".removeBtn").on("click", function() {
 
-    // Remove event from local storage
-    localStorage.removeItem("event-" + blockHour);
+      // Remove event from local storage
+      localStorage.removeItem("event-" + timeBlock);
     
-    // Clear description field
-    $(this).siblings(".description").val("");
-   });
-
+      // Clear description field
+      $(this).siblings(".description").val("");
+      });
 
     });
 
