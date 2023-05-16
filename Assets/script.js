@@ -1,61 +1,72 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
+$(document).ready(function() {
+  var currentDayEl = $('#currentDay');
+  var containerEl = $('#container');
+  var currentHour = moment().hour();
 
-$(function () {
-  $(document).ready(function() {
+  var timeBlockHour = $('.hour');
+  var task = $('.description');
 
-    // Get current day and time
-    var timezone = "America/Mountain";
-    var currentDay = dayjs().format("MMMM, D, YYYY");
-    var currentHour = dayjs().format("H");
+  var currentDay = moment().format('dddd, MMMM Do');
+  currentDayEl.text(currentDay);
 
-    // Display current day
-    $("#currentDay").text(currentDay);
+  var workDayHours = [
+    moment().hour(9).format('hA'),
+    moment().hour(10).format('hA'),
+    moment().hour(11).format('hA'),
+    moment().hour(12).format('hA'),
+    moment().hour(13).format('hA'),
+    moment().hour(14).format('hA'),
+    moment().hour(15).format('hA'),
+    moment().hour(16).format('hA'),
+    moment().hour(17).format('hA')
+  ];
 
-    // Set up time blocks
-    $(".time-block").each(function() {
+  $('.time-block').each(function() {
+    var timeBlockEventSpace = $(this).find('.col-10');
+    var currentTimeBlockHour = moment($(this).find('.hour').text().trim(), 'hA').hour();
 
-      // Get hour for this time block
-      var timeBlock = parseInt($(this).attr("id").split("-")[1]);
+    timeBlockEventSpace.removeClass('past present future');
 
-      // Set background color for time block based on past/present/future
-      if (timeBlock < currentHour) {
-        $(this).addClass("past");
-      } else if (timeBlock === currentHour) {
-        $(this).addClass("present");
-      } else {
-        $(this).addClass("future");
-      }
-      
+    if (currentTimeBlockHour > currentHour) {
+      timeBlockEventSpace.addClass('future');
+    } else if (currentTimeBlockHour === currentHour) {
+      timeBlockEventSpace.addClass('present');
+    } else {
+      timeBlockEventSpace.addClass('past');
+    }
 
-      // Retrieve saved event for this time block from local storage
-      var savedEvent = localStorage.getItem("event-" + timeBlock);
-
-
-      // Display saved event
-      $(this).find(".description").val(savedEvent);
-
-      // Save event when save button is clicked
-      $(this).find(".saveBtn").on("click", function() {
-        var event = $(this).siblings(".description").val();
-        localStorage.setItem("event-" + timeBlock, event);
-      });
-
-
-      // Add remove button click listener
-      $(this).find(".removeBtn").on("click", function() {
-
-      // Remove event from local storage
-      localStorage.removeItem("event-" + timeBlock);
+    $(document).ready(function() {
+      var containerEl = $('.container');
     
-      // Clear description field
-      $(this).siblings(".description").val("");
+      // Attach click event to the container and delegate to save button
+      containerEl.on('click', '.saveBtn', function() {
+        var hour = $(this).siblings('.hour').text().trim();
+        var task = $(this).siblings('.description').val();
+        localStorage.setItem("event-" + hour, task);
       });
-
+    
+      // Retrieve saved events from local storage and display them
+      $('.time-block').each(function() {
+        var hour = $(this).find('.hour').text().trim();
+        var savedEvent = localStorage.getItem("event-" + hour);
+        $(this).find('.description').val(savedEvent);
+      });
     });
+    
 
-  });
+  function loadTask() {
+    for (var i = 0; i < workDayHours.length; i++) {
+      let task = localStorage.getItem("event-" + workDayHours[i]);
+
+      if (task) {
+        $('#' + (i + 9)).siblings().first().children().text(task);
+      }
+    }
+  }
+
+  loadTask();
+});
+});
 
   
   // TODO: Add a listener for click events on the save button. This code should
@@ -76,5 +87,4 @@ $(function () {
   // attribute of each time-block be used to do this?
   //
   // TODO: Add code to display the current date in the header of the page.
-});
 
