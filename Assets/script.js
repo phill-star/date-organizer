@@ -9,18 +9,6 @@ $(document).ready(function() {
   var currentDay = moment().format('dddd, MMMM Do');
   currentDayEl.text(currentDay);
 
-  var workDayHours = [
-    moment().hour(9).format('hA'),
-    moment().hour(10).format('hA'),
-    moment().hour(11).format('hA'),
-    moment().hour(12).format('hA'),
-    moment().hour(13).format('hA'),
-    moment().hour(14).format('hA'),
-    moment().hour(15).format('hA'),
-    moment().hour(16).format('hA'),
-    moment().hour(17).format('hA')
-  ];
-
   $('.time-block').each(function() {
     var timeBlockEventSpace = $(this).find('.col-10');
     var currentTimeBlockHour = moment($(this).find('.hour').text().trim(), 'hA').hour();
@@ -34,39 +22,33 @@ $(document).ready(function() {
     } else {
       timeBlockEventSpace.addClass('past');
     }
+  });
 
-    $(document).ready(function() {
-      var containerEl = $('.container');
-    
-      // Attach click event to the container and delegate to save button
-      containerEl.on('click', '.saveBtn', function() {
-        var hour = $(this).siblings('.hour').text().trim();
-        var task = $(this).siblings('.description').val();
-        localStorage.setItem("event-" + hour, task);
-      });
-    
-      // Retrieve saved events from local storage and display them
-      $('.time-block').each(function() {
-        var hour = $(this).find('.hour').text().trim();
-        var savedEvent = localStorage.getItem("event-" + hour);
-        $(this).find('.description').val(savedEvent);
-      });
-    });
-    
+  var containerEl = $('.container');
 
-  function loadTask() {
-    for (var i = 0; i < workDayHours.length; i++) {
-      let task = localStorage.getItem("event-" + workDayHours[i]);
+  // Attach click event to the container and delegate to save button
+  containerEl.on('click', '.saveBtn', function() {
+    var hour = $(this).siblings('.hour').text().trim();
+    var task = $(this).siblings('.description').val();
+    localStorage.setItem("event-" + hour, task);
+  });
 
-      if (task) {
-        $('#' + (i + 9)).siblings().first().children().text(task);
-      }
-    }
-  }
+  // Retrieve saved events from local storage and display them
+  $('.time-block').each(function() {
+    var hour = $(this).find('.hour').text().trim();
+    var savedEvent = localStorage.getItem("event-" + hour);
+    $(this).find('.description').val(savedEvent);
+  });
 
-  loadTask();
+  // Add remove button click listener
+  containerEl.on('click', '.removeBtn', function() {
+    var hour = $(this).siblings('.hour').text().trim();
+    var task = $(this).siblings('.description').val();
+    localStorage.removeItem("event-" + hour);
+    $(this).siblings('.description').val('');
+  });
 });
-});
+
 
   
   // TODO: Add a listener for click events on the save button. This code should
