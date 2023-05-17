@@ -14,8 +14,16 @@ textarea {
   
 }
 
+
 .description {
   white-space: pre-wrap;
+  border: none;
+  resize: none;
+  color: black;
+  border: 1px solid black;
+  padding: 5px;
+  height: 100px; /* Adjust the height as desired */
+  margin-bottom: 5px; /* Adjust the margin-bottom as desired */
 }
 
 .time-block {
@@ -47,24 +55,34 @@ textarea {
   background-color: #77dd77;
 }
 
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.saveBtn {
+  margin-left: 5px; /* Adjust the margin-left as desired */
+}
+
+
 .saveBtn {
   border-left: 1px solid black;
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
+  border-radius: 15px;
   background-color: #00667d;
   color: white;
 }
 
 
-.saveBtn i:hover {
+.saveBtn i, .removeBtn i
+:hover {
   font-size: 20px;
   transition: all 0.3s ease-in-out;
 }
 
 .removeBtn {
   border-left: 1px solid black;
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
+  border-radius: 15px;
   background-color: #d50606;
   color: white;
 }
@@ -73,3 +91,4 @@ textarea {
   font-size: 20px;
   transition: all 0.3s ease-in-out;
 }
+

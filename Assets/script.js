@@ -10,7 +10,7 @@ $(document).ready(function() {
   currentDayEl.text(currentDay);
 
   $('.time-block').each(function() {
-    var timeBlockEventSpace = $(this).find('.col-10');
+    var timeBlockEventSpace = $(this).find('.col-8');
     var currentTimeBlockHour = moment($(this).find('.hour').text().trim(), 'hA').hour();
 
     timeBlockEventSpace.removeClass('past present future');
@@ -26,8 +26,8 @@ $(document).ready(function() {
 
   var containerEl = $('.container');
 
-  // Attach click event to the container and delegate to save button
-  containerEl.on('click', '.saveBtn', function() {
+   // Attach click event to the container and delegate to save button
+   containerEl.on('click', '.saveBtn', function() {
     var hour = $(this).siblings('.hour').text().trim();
     var task = $(this).siblings('.description').val();
     localStorage.setItem("event-" + hour, task);
@@ -43,13 +43,14 @@ $(document).ready(function() {
   // Add remove button click listener
   containerEl.on('click', '.removeBtn', function() {
     var hour = $(this).siblings('.hour').text().trim();
-    var task = $(this).siblings('.description').val();
+
+    // Remove event from local storage
     localStorage.removeItem("event-" + hour);
+
+    // Clear description field
     $(this).siblings('.description').val('');
   });
 });
-
-
   
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
