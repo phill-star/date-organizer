@@ -6,7 +6,7 @@ $(document).ready(function() {
   var timeBlockHour = $('.hour');
   var task = $('.description');
 
-  var currentDay = moment().format('dddd, MMMM Do');
+  var currentDay = moment().format('dddd, MMMM Do, YYYY');
   currentDayEl.text(currentDay);
 
   $('.time-block').each(function() {
