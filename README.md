@@ -17,4 +17,4 @@ When you refreshes the page, the saved events persist.
 
 https://phill-star.github.io/date-organizer/
 
-<img width="1512" alt="Screenshot 2023-05-17 at 5 52 53 PM" src="https://github.com/phill-star/date-organizer/assets/130422301/2139d1c5-c9c5-47fa-8637-158fb8de38cb">
+<img width="1512" alt="Screenshot 2023-05-17 at 7 07 31 PM" src="https://github.com/phill-star/date-organizer/assets/130422301/dd756888-8488-41a3-837b-69ac2a03e3ce">
